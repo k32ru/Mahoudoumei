@@ -57,16 +57,15 @@ function updateCalenderMain(){
   var calenderData = loadCalenerData();
   //var calenderData = loadCalenerDataTest();
   var date = new Date(); 
-  var today = new Date(date.getFullYear(),date.getMonth(),date.getDate(),0,0);//今日から　　　
-  var endday = new Date(date.getFullYear(),date.getMonth(),date.getDate()+33,23,59);//30日後
-  for(calender of calenderData){
+  var now = new Date(date.getFullYear(),date.getMonth(),date.getDate(),date.getHours(),date.getMinutes());//今から　
+  var endday = new Date(date.getFullYear(),date.getMonth(),date.getDate()+33,23,59);//33日後
+  for(calenderURL of calenderData){
     //URLから追加できるカレンダーIDをBase64でデコードして
     //xxxxxxxxxxx@group.calendar.google.comのような文字列を得る(これでないとイベント情報を取得できない)
-    calender=CalendarApp.getCalendarById(DecodeBase64(calender)); 
+    var calender=CalendarApp.getCalendarById(DecodeBase64(calenderURL)); 
     
     //期間中のイベントを取得する
-    const events = calender.getEvents(today, endday);
-    const values=[];
+    const events = calender.getEvents(now, endday);
     
     //イベントデータに対して、スプシに書き込む
     for(const event of events){  
