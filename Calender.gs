@@ -55,7 +55,6 @@ function updateCalenderMain(){
   deleteAllEventTrigger();
   clearSpreadSheet();
   var calenderData = loadCalenerData();
-  //var calenderData = loadCalenerDataTest();
   var date = new Date(); 
   var now = new Date(date.getFullYear(),date.getMonth(),date.getDate(),date.getHours(),date.getMinutes());//今から　
   var endday = new Date(date.getFullYear(),date.getMonth(),date.getDate()+33,23,59);//33日後

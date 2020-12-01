@@ -1,8 +1,6 @@
 
-var telegramUrl = "https://api.telegram.org/bot" + token;
-//var var webAppUrl = "https://xxx";
-
 function setWebhook() {
+  var telegramUrl = "https://api.telegram.org/bot" + token;
   var url = telegramUrl + "/setWebhook?url=" + webAppUrl;
   var response = UrlFetchApp.fetch(url);
   Logger.log(response.getContentText());
