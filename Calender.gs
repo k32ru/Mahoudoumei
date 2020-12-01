@@ -213,7 +213,7 @@ function setTriggerStart(event) {
     var setTime = new Date( event.getStartTime());
     setTime.setDate(setTime.getDate())
     setTime.setHours(setTime.getHours());
-    setTime.setMinutes(setTime.getMinutes()-30); //開始メッセージは15分前に通知する
+    setTime.setMinutes(setTime.getMinutes()-15); //開始メッセージは15分前に通知する
     var trigger = ScriptApp.newTrigger('eventStartMessage').timeBased().at(setTime).create();
     var triggerUid = trigger.getUniqueId();
     var Title = event.getTitle();

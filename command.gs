@@ -1,11 +1,12 @@
 
 function setWebhook() {
-  var telegramUrl = "https://api.telegram.org/bot" + token;
+  var telegramUrl = "https://api.telegram.org/bot" + globalYuzukiToken;
   var url = telegramUrl + "/setWebhook?url=" + webAppUrl;
   var response = UrlFetchApp.fetch(url);
   Logger.log(response.getContentText());
 }
 function delWebhook() {
+　var telegramUrl = "https://api.telegram.org/bot" + globalYuzukiToken;
   var url = telegramUrl + "/deleteWebhook?url=" + webAppUrl;
   var response = UrlFetchApp.fetch(url);
   Logger.log(response.getContentText());
