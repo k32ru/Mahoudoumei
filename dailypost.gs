@@ -6,7 +6,6 @@ function delTriggerOpenGift() {
       ScriptApp.deleteTrigger(trigger);
     }
   }
-  
 }
 
 function delTriggerDailyEvent() {
@@ -16,7 +15,6 @@ function delTriggerDailyEvent() {
       ScriptApp.deleteTrigger(trigger);
     }
   }
-  
 }
 
 function setTriggerOpenGift() {
@@ -24,7 +22,7 @@ function setTriggerOpenGift() {
   setTime.setDate(setTime.getDate()+1 )
   setTime.setHours(23);
   setTime.setMinutes(45); 
-  ScriptApp.newTrigger('openGiftMesage').timeBased().at(setTime).create();  
+  setTriggerWithRETRY(setTime,'openGiftMesage');
 }
 
 function setTriggerDailyEvent() {
@@ -32,12 +30,11 @@ function setTriggerDailyEvent() {
   setTime.setDate(setTime.getDate()+1)
   setTime.setHours(00);
   setTime.setMinutes(00); 
-  ScriptApp.newTrigger('StartDailyEvent').timeBased().at(setTime).create();  
+   setTriggerWithRETRY(setTime,'StartDailyEvent');
 }
 
 function openGiftMesage(){
-  // this message post at 23:35 every day.
-  //br は使えないので、発言するときに置き換えるのもありかも
+  // this message post at 23:45 every day.
   sendMessageMain('<b>【通知】ギフト開封期限</b>\nもうすぐ日付が変わります\nギフトの開封を忘れずに！\n#時刻 #ギフト開封期限' );
   delTriggerOpenGift();//無効なトリガーを削除
   setTriggerOpenGift();//改めて次の時間のをセット
