@@ -124,7 +124,7 @@ function getTodayEvent(){
       if(sheet.getRange(i,2).getValue() == 'start'){
         var eventStartTime = new Date(sheet.getRange(i,4).getValue());
         var eventEndTime = new Date(sheet.getRange(i,5).getValue());      
-        if(now.getTime() > eventStartTime.getTime()  && now.getTime() < eventEndTime.getTime() ){
+        if(now.getTime() >= eventStartTime.getTime()  && now.getTime() < eventEndTime.getTime() ){
           Logger.log('today event found')
           todayEvent.push({title:sheet.getRange(i,3).getValue(),start:sheet.getRange(i,4).getValue(),end:sheet.getRange(i,5).getValue(),remainingTime:eventEndTime-now});          
         }
@@ -132,6 +132,32 @@ function getTodayEvent(){
   }
   return todayEvent;
 }
+
+function getBossEvent(){
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Event");
+    const lastRow = sheet.getLastRow();
+    var now = new Date(Utilities.formatDate(new Date(), "JST", "yyyy/MM/dd (E) HH:mm"));//えらくやり方が汚い
+    var bossEvent = [];
+    for(var i = 1 ;i < lastRow+1; i++){
+      var eventName = sheet.getRange(i,3).getValue()
+        if (eventName.indexOf('ボス')!==-1){
+        if(sheet.getRange(i,2).getValue() == 'start'){
+          var eventStartTime = new Date(sheet.getRange(i,4).getValue());
+          var eventEndTime = new Date(sheet.getRange(i,5).getValue()); 
+          //ボスイベント中は通知しない
+          if(now.getTime() < eventStartTime.getTime()  || now.getTime() > eventEndTime.getTime() ){
+          bossEvent.push({title:sheet.getRange(i,3).getValue(),start:sheet.getRange(i,4).getValue(),end:sheet.getRange(i,5).getValue(),remainingTime:eventEndTime-now});
+          }          
+        }
+      }
+  }
+  return bossEvent;
+}
+
+function testBossEvent(){
+  Logger.log(getBossEvent());
+}
+
 function showDiff(diff2Dates){
   var dDays  = diff2Dates / ( 1000 * 60 * 60 * 24 );  // 日数
   diff2Dates = diff2Dates % ( 1000 * 60 * 60 * 24 );
@@ -152,6 +178,23 @@ function showTodayEvent(){
       end = e['end'];
       diff= e['remainingTime'];
       sendtext = `<b>現在【${Title}】が行われています</b> \n ${start} 〜 ${end} (JST)　\n 残り時間:${showDiff(diff)}`
+      sendMessageMain(sendtext);
+    }
+     return true;
+  }else{
+    return false;
+  }
+}
+function showBossStartEvent(){
+  event = getBossEvent();
+
+  if(event.length){
+    for(e of event){
+      Title = e['title'];
+      start = e['start'];
+      end = e['end'];
+      diff= e['remainingTime'];
+      sendtext = `<b>【${Title}】まで残り時間:${showDiff(diff)}</b> \n${start} 〜 ${end} (JST)　\n `
       sendMessageMain(sendtext);
     }
      return true;

@@ -4,13 +4,13 @@ function getRandomInt(max) {
 function test(){
   sendSticker(globalChatIdMain,'CAACAgIAAxkBAAEBhEVfm_nLsOOf6_9cCcBIaNvKY2rL8QACVgADHwFMFQ8zjRozxUnaGwQ');
 }
-function sendHappyHallowen(){
+function sendHappyNewYear(){
   //https://stackoverflow.com/questions/52765833/why-i-cant-send-sticker-by-its-id
   
   var token = globalYuzukiToken // WPHONotice
   var telegramUrl = "https://api.telegram.org/bot" + token;
   var id = globalChatIdMain 
-  var sticker = 'CAACAgIAAxkBAAEBhEVfm_nLsOOf6_9cCcBIaNvKY2rL8QACVgADHwFMFQ8zjRozxUnaGwQ';
+  var sticker = 'CAACAgIAAxkBAAEBu-Nf7cpUNpd94lBMj6F2es7WjoeI0AACMQADwZxgDMYOMqCLWnWlHgQ';
   var url = telegramUrl + "/sendSticker?chat_id=" + id + '&sticker='+ sticker;
   var response = UrlFetchApp.fetch(url);
 }
