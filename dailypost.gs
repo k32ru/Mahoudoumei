@@ -44,6 +44,7 @@ function StartDailyEvent(){
   //this message post at 00:00 every day.
   sendMessageMain('<b>【通知】デイリーイベント時刻</b>\nデイリーイベントが始まりました\nアプリの再起動を忘れずに！\n#時刻 #デイリーイベント');
   showTodayEvent();//現在設定されているイベントがあれば通知する。
+  showBossStartEvent();//ボスインベントについてあれば通知する。ボスインベント中は通知しない。
   delTriggerDailyEvent();//無効なトリガーを削除
   setTriggerDailyEvent();//改めて次の時間のをセット
 }

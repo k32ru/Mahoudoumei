@@ -45,6 +45,11 @@ function doPost(e) {
         if (command == '/eventupdate') {
           updateCalenderMain();       
         }
+        //ボスインベントの開始時間を通知
+        if (command == '/eventboss') {
+          showBossStartEvent();       
+        }
+
          if (command == '/eventhelp') {
             var helpMesage = '- eventnow 現在行われているイベントを表示します。\n - eventupdate 登録されているカレンダーから情報を読み込み通知を再作成します。\n - eventhelp この内容を表示します。';
             sendMessageMain(helpMesage);

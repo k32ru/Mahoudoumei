@@ -139,14 +139,14 @@ function getBossEvent(){
     var now = new Date(Utilities.formatDate(new Date(), "JST", "yyyy/MM/dd (E) HH:mm"));//えらくやり方が汚い
     var bossEvent = [];
     for(var i = 1 ;i < lastRow+1; i++){
-      var eventName = sheet.getRange(i,3).getValue()
+      var eventName = sheet.getRange(i,3).getValue();
         if (eventName.indexOf('ボス')!==-1){
         if(sheet.getRange(i,2).getValue() == 'start'){
           var eventStartTime = new Date(sheet.getRange(i,4).getValue());
           var eventEndTime = new Date(sheet.getRange(i,5).getValue()); 
           //ボスイベント中は通知しない
-          if(now.getTime() < eventStartTime.getTime()  || now.getTime() > eventEndTime.getTime() ){
-          bossEvent.push({title:sheet.getRange(i,3).getValue(),start:sheet.getRange(i,4).getValue(),end:sheet.getRange(i,5).getValue(),remainingTime:eventEndTime-now});
+          if(now.getTime() < eventStartTime.getTime() ){
+          bossEvent.push({title:sheet.getRange(i,3).getValue(),start:sheet.getRange(i,4).getValue(),end:sheet.getRange(i,5).getValue(),remainingTime:eventStartTime-now});
           }          
         }
       }
@@ -194,7 +194,7 @@ function showBossStartEvent(){
       start = e['start'];
       end = e['end'];
       diff= e['remainingTime'];
-      sendtext = `<b>【${Title}】まで残り時間:${showDiff(diff)}</b> \n${start} 〜 ${end} (JST)　\n `
+      sendtext = `<b>【${Title}】開始まで:${showDiff(diff)}</b> \n${start} 〜 ${end} (JST)　\n `
       sendMessageMain(sendtext);
     }
      return true;
