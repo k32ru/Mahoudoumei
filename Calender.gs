@@ -177,7 +177,7 @@ function showTodayEvent(){
       start = e['start'];
       end = e['end'];
       diff= e['remainingTime'];
-      sendtext = `<b>現在【${Title}】が行われています</b> \n ${start} 〜 ${end} (JST)　\n 残り時間:${showDiff(diff)}`
+      sendtext = `<b>現在【${Title}】が行われています　残り時間:${showDiff(diff)}</b> \n${start} 〜 ${end} JST`
       sendMessageMain(sendtext);
     }
      return true;
@@ -194,7 +194,7 @@ function showBossStartEvent(){
       start = e['start'];
       end = e['end'];
       diff= e['remainingTime'];
-      sendtext = `<b>【${Title}】開始まで:${showDiff(diff)}</b> \n${start} 〜 ${end} (JST)　\n `
+      sendtext = `<b>【${Title}】開始まで:${showDiff(diff)}</b> \n${start} 〜 ${end} JST　\n `
       sendMessageMain(sendtext);
     }
      return true;

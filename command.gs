@@ -47,7 +47,7 @@ function doPost(e) {
         }
         //ボスインベントの開始時間を通知
         if (command == '/eventboss') {
-          showBossStartEvent();       
+          if(!showBossStartEvent()){ sendMessageMain('現在行われているイベントは有りません。')};
         }
 
          if (command == '/eventhelp') {
