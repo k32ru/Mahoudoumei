@@ -45,13 +45,13 @@ function doPost(e) {
         if (command == '/eventupdate') {
           updateCalenderMain();       
         }
-        //ボスインベントの開始時間を通知
+        //ボスインベントの情報を表示する
         if (command == '/eventboss') {
-          if(!showBossStartEvent()){ sendMessageMain('現在行われているイベントは有りません。')};
+          showBossEvent('now')
         }
 
          if (command == '/eventhelp') {
-            var helpMesage = '- eventnow 現在行われているイベントを表示します。\n - eventupdate 登録されているカレンダーから情報を読み込み通知を再作成します。\n - eventhelp この内容を表示します。';
+            var helpMesage = '- eventnow 現在行われているイベントを表示します。\n - eventupdate 登録されているカレンダーから情報を読み込み通知を再作成します。\n -eventboss 登録されているボスイベントの開始までの時間を表示します。\n - eventhelp この内容を表示します。';
             sendMessageMain(helpMesage);
         }
   }

@@ -133,6 +133,8 @@ function getTodayEvent(){
   return todayEvent;
 }
 
+
+//タイトルに「ボス」が含まれるイベントの情報を取得する。
 function getBossEvent(){
     var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Event");
     const lastRow = sheet.getLastRow();
@@ -141,22 +143,23 @@ function getBossEvent(){
     for(var i = 1 ;i < lastRow+1; i++){
       var eventName = sheet.getRange(i,3).getValue();
         if (eventName.indexOf('ボス')!==-1){
-        if(sheet.getRange(i,2).getValue() == 'start'){
-          var eventStartTime = new Date(sheet.getRange(i,4).getValue());
-          var eventEndTime = new Date(sheet.getRange(i,5).getValue()); 
-          //ボスイベント中は通知しない
-          if(now.getTime() < eventStartTime.getTime() ){
-          bossEvent.push({title:sheet.getRange(i,3).getValue(),start:sheet.getRange(i,4).getValue(),end:sheet.getRange(i,5).getValue(),remainingTime:eventStartTime-now});
-          }          
-        }
+          if(sheet.getRange(i,2).getValue() == 'start'){
+            var eventStartTime = new Date(sheet.getRange(i,4).getValue());
+            var eventEndTime = new Date(sheet.getRange(i,5).getValue()); 
+            //ボスインベント開始前
+            if(now.getTime() < eventStartTime.getTime() ){
+              bossEvent.push({title:sheet.getRange(i,3).getValue(),start:sheet.getRange(i,4).getValue(),end:sheet.getRange(i,5).getValue(),remainingTime:eventStartTime-now,status:'start'});
+            }
+            //ボスインベント中
+            if(now.getTime() >= eventStartTime.getTime()  && now.getTime() < eventEndTime.getTime() ){
+              bossEvent.push({title:sheet.getRange(i,3).getValue(),start:sheet.getRange(i,4).getValue(),end:sheet.getRange(i,5).getValue(),remainingTime:eventEndTime-now,status:'now'});
+            }          
+          }
       }
   }
   return bossEvent;
 }
 
-function testBossEvent(){
-  Logger.log(getBossEvent());
-}
 
 function showDiff(diff2Dates){
   var dDays  = diff2Dates / ( 1000 * 60 * 60 * 24 );  // 日数
@@ -185,7 +188,9 @@ function showTodayEvent(){
     return false;
   }
 }
-function showBossStartEvent(){
+
+//bossインベントの情報を表示する
+function showBossEvent(callType){
   event = getBossEvent();
 
   if(event.length){
@@ -194,12 +199,27 @@ function showBossStartEvent(){
       start = e['start'];
       end = e['end'];
       diff= e['remainingTime'];
-      sendtext = `<b>【${Title}】開始まで:${showDiff(diff)}</b> \n${start} 〜 ${end} JST　\n `
-      sendMessageMain(sendtext);
+      status = e['status'];
+      //0時のディリーイベントの表示の後に呼び出される時は、登録されていて、これから開始するボスインベントを表示する
+      if(callType == 'start' && status == 'start'){
+        sendtext = `<b>【${Title}】開始まで:${showDiff(diff)}</b> \n${start} 〜 ${end} JST　\n `;
+        sendMessageMain(sendtext);
+      }
+      //eventbossコマンドでは現在行われているボスインベントと
+      if(callType == 'now' && status == 'now'){
+        sendtext= `<b>【現在${Title}】が行われています　残り時間:${showDiff(diff)}</b> \n${start} 〜 ${end} JST　\n `;
+        sendMessageMain(sendtext);
+      }
+      //これから行われるボスインベントを表示する。
+      if(callType == 'now' && status == 'start'){
+        sendtext = `<b>【${Title}】開始まで:${showDiff(diff)}</b> \n${start} 〜 ${end} JST　\n `;
+        sendMessageMain(sendtext);
+        }
     }
-     return true;
-  }else{
-    return false;
+  //ボスインベントが現在行われているのも、登録されているのも無い時
+  }else if (callType == 'now'){
+    sendtext = `現在登録されているボスインベントはありません。ボス先生の次回作にご期待ください。`;
+    sendMessageMain(sendtext);
   }
 }
 
